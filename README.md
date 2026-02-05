@@ -1,4 +1,4 @@
-```markdown
+
 # 📚 Library App
 
 A simple book tracking application built for **The Odin Project**. The goal was to practice Object Constructors, local data storage, and syncing JavaScript logic with the DOM.
@@ -22,4 +22,4 @@ A simple book tracking application built for **The Odin Project**. The goal was 
 - HTML5
 - CSS3 (Grid)
 - JavaScript (ES6+)
-```
+

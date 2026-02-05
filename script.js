@@ -6,8 +6,10 @@ const inputTitle = document.getElementById("userInputTitle");
 const inputAuthor = document.getElementById("userInputAuthor");
 const inputPages = document.getElementById("userInputPages");
 const inputRead = document.getElementById("userInputRead");
+const closeButton = document.getElementById("close");
+const form = document.getElementById("form");
 
-const myLibrary = [];
+let myLibrary = [];
 
 function Book(title, author, pages, read) {
   this.title = title;
@@ -28,31 +30,61 @@ function addBookToLibrary(title, author, pages, read) {
 
 function loopAndDisplay(arr) {
   container.innerHTML = "";
-  myLibrary.forEach((item) => {
+  arr.forEach((item) => {
     const listItem = document.createElement("div");
     const title = document.createElement("h2");
     const author = document.createElement("p");
     const pages = document.createElement("p");
     const read = document.createElement("p");
     const id = document.createElement("p");
+    const rmv = document.createElement("button");
+    const readBtn = document.createElement("button");
     listItem.classList.add("card");
+    rmv.setAttribute("data-user-id", `${item.id}`);
 
     title.textContent = `${item.title}`;
     author.textContent = `Author: ${item.author}`;
     pages.textContent = `Pages: ${item.pages}`;
     read.textContent = `Read: ${item.read}`;
     id.textContent = `Id: ${item.id}`;
+    rmv.textContent = `Remove`;
+    readBtn.textContent = "Toggle read status";
+
     container.appendChild(listItem);
     listItem.appendChild(title);
     listItem.appendChild(author);
     listItem.appendChild(pages);
     listItem.appendChild(read);
     listItem.appendChild(id);
+    listItem.appendChild(rmv);
+    listItem.appendChild(readBtn);
+
+    rmv.addEventListener("click", (event) => {
+      const targetId = event.target.dataset.userId;
+      console.log(event.target.dataset.userId);
+      let myArray = arr.filter((item) => item.id !== targetId);
+      myLibrary = myArray;
+
+      loopAndDisplay(myArray);
+    });
+
+    readBtn.addEventListener("click", (event) => {
+      item.toggleRead();
+      loopAndDisplay(myLibrary);
+    });
   });
 }
+Book.prototype.toggleRead = function () {
+  return this.read === "yes" ? (this.read = "no") : (this.read = "yes");
+};
 
 openBtn.addEventListener("click", () => {
+  form.reset();
   dialog.showModal();
+});
+
+closeButton.addEventListener("click", () => {
+  dialog.close();
 });
 
 saveBtn.addEventListener("click", () => {
@@ -63,6 +95,8 @@ saveBtn.addEventListener("click", () => {
     `${inputRead.value}`,
   );
   loopAndDisplay(myLibrary);
+
+  form.reset();
 });
 
 addBookToLibrary("The Hobbit", "Tolkien", 295, "yes");
